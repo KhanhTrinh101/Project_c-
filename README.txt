@@ -8,7 +8,7 @@ Khi chạy đoạn code lên
 	. nhập mật khẩu bạn vừa cài.
 	. sau khi đăng nhập thành công, bạn có thể thiết lập lại mật khẩu mới nếu muốn.
 	. Tiếp theo bạn sẽ chọn các mốc tốc độ mà bạn muốn hệ thống cảnh báo.
-	. nếu xe chưa được cài đặt các mức cảnh báo thì bạn hãy cài lại,có thể thay đổi tùy ý, nhưng nếu bạn nhập 3 mức vận tốc trùng với 3 mức vận tốc cũ thì sẽ chương 	   trình sẽ không lưu. 
+	. nếu xe chưa được cài đặt các mức cảnh báo thì bạn hãy cài lại,có thể thay đổi tùy ý, nhưng nếu bạn nhập 3 mức vận tốc trùng với 3 mức vận tốc cũ thì sẽ chương trình sẽ không lưu. 
 	. Tiếp theo bạn sẽ được chọn các tay số giống hệt như trên xe ô tô.
 		. Số P: Tức là đưa xe về chế độ đỗ xe. Ở chế độ này hộp số sẽ ở chế độ P và bánh xe sẽ bị bó cứng.
 		. Số N: Cũng là đưa xe về chế độ đỗ xe. Chỉ khác số P là bánh xe không bị bó cứng, nếu không sử dụng phanh thì ô tô sẽ bị trôi.
