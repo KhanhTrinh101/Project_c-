@@ -31,8 +31,6 @@ void XuatThongTinCaiDat_General();
 void XuatThongTinCaiDat_Display();
 void XuatThongTinTatCaTinCaiDat();
 
-void Doc_File(string fileName);
-void Ghi_File(string fileName);
 
 void downloadLanguage(string namefile);
 void downloadTimeZone(string namefile);
@@ -41,13 +39,15 @@ void downloadTimeZone(string namefile);
 void menu();
 
 int main(int argc, char** argv) {
-	Doc_File("Setting.txt");
+	//Doc_File("Setting.txt");
+	Listcar.ReadFile("Setting.txt");
 	countCnt = Listcar.size();
 	downloadTimeZone("timezones.txt");
 	downloadLanguage("languages.txt");
 	system("pause");
 	menu();
-	Ghi_File("Setting.txt");
+	Listcar.writeFlile("Setting.txt");
+
 	return 0;
 }
 
@@ -55,6 +55,7 @@ int main(int argc, char** argv) {
 	ham Menu dung de show menu.
 	goi toi cac ham nhap, xuat.
 */
+
 void menu() {
 	int selection = 0;
 	// menu lua chon nhap, xuat thong tin
@@ -269,8 +270,6 @@ void NhapThongTinCaiDat_Display()
 			countCnt++;
 		}
 
-		// ghi du lieu vao file
-		//Ghi_File(newcar, "Setting.txt");
 		// kiem tra xem nguoi dung co muon nhap tiep khong?
 		do {
 			cout << "Will you input for car " << countCnt + 1 << " ? (y/n): ";
@@ -565,160 +564,12 @@ void XuatThongTinTatCaTinCaiDat() {
 		cout << setw(20) << "Owner Name" << setw(25) << "Email" << setw(10) << "MSC"
 			<< setw(10) << "ODO" << setw(10) << "Sevices"
 			<< setw(10) << "Light" << setw(10) << "Taplo" << setw(10) << "Screen"
-			<< setw(10) << "Media" << setw(10) << "Call" << setw(10) << "Navi" << setw(10) << "Notify"
+			<< setw(10) << "Media" << setw(10) << "Call" << setw(10) << "Navi"<< setw(10) << "Notify"
 			<< setw(15) << "TimeZone" << setw(20) << "Language" << endl;
 		Listcar.ShowName(name);
 		system("pause");
 	}
 	XuatThongTinCaiDat();
-}
-
-/*
-	Ham Doc_File dung de doc file setting.txt (luu cac phan tu car)
-	sau do add vao danh sach car
-*/
-void Doc_File(string fileName) {
-	ifstream file;
-	string line;
-
-	try {
-		file.open(fileName.c_str());
-		if (file.fail()) {
-			throw 1;
-		}
-		else {
-			while (getline(file, line)) {
-				// khoi tao xe moi theo cac gia tri doc duoc trong file 
-				CarSetting* newCar = new CarSetting;
-				// tao danh sach cac chuoi cach nhau boi dau '/'
-				vector<string> data1;
-				// tao danh sach cac chuoi cach nhau boi dau ','
-				vector<string> data2;
-				
-				// tach cac chuoi duoc cach nhau boi dau '/'
-				data1 = explode(line, '/');
-				// tach cac chuoi duoc cach nhau boi dau ','
-				data2 = explode(data1[0], ',');
-
-				// khoi tao cac gia tri cua setting
-				newCar->setCarName(data2[1]);
-				newCar->setEmail(data2[2]);
-				newCar->setPersonalKey(data2[3]);
-
-				int ODO = atoi(data2[4].c_str());
-				int ServiceRemind = atoi(data2[5].c_str());
-				newCar->setODO(ODO);
-				newCar->setServiceRemind(ServiceRemind);
-
-				// khoi tao cac gia tri cua display setting
-				data2 = explode(data1[1], ',');
-				int light_level = atoi(data2[1].c_str());
-				int screen_light_level = atoi(data2[2].c_str());
-				int taplo_light_level = atoi(data2[3].c_str());
-				newCar->getdisplay()->set_light_level(light_level);
-				newCar->getdisplay()->set_screen_light_level(screen_light_level);
-				newCar->getdisplay()->set_taplo_light_level(taplo_light_level);
-
-				// khoi tao cac gia tri cua sound setting
-				data2 = explode(data1[2], ',');
-				int call_level = atoi(data2[1].c_str());
-				int media_level = atoi(data2[2].c_str());
-				int navi_level = atoi(data2[3].c_str());
-				int notification_level = atoi(data2[4].c_str());
-				newCar->getsound()->set_call_level(call_level);
-				newCar->getsound()->set_media_level(media_level);
-				newCar->getsound()->set_navi_level(navi_level);
-				newCar->getsound()->set_notification_level(notification_level);
-
-				// khoi tao cac gia tri cua general setting
-				data2 = explode(data1[3], ',');
-				newCar->getgeneral()->set_language(data2[1]);
-				newCar->getgeneral()->set_timeZone(data2[2]);
-
-				// them phan tu moi vao danh sach
-				Listcar.Insert(newCar);
-			}
-		}
-		file.close();
-	}
-	catch (int e) {
-		if (e == 1) {
-			cout << "Error opening writeFile " << fileName << endl;
-			system("pause");
-		}
-	}
-}
-
-/*
-	Ham Ghi_File dung de ghi thong tin cua cac phan tu car trong danh sach
-	sau do luu vao file setting.txt
-*/
-void Ghi_File(string fileName) {
-	ofstream file;
-	try {
-		file.open(fileName.c_str(), ios_base::trunc);
-		if (file.fail()) {
-			throw 1;
-		}
-		else {
-			// tao mot vector luu thong tin tat ca cac xe
-			vector<CarSetting*> listCar;
-			listCar = Listcar.convertToVector();
-			// luu vector vao trong file
-			for (auto car : listCar) {
-				// ghi thong tin common
-				file << "Common: ";
-				file << ",";
-				file << car->getCarName();
-				file << ",";
-				file << car->getEmail();
-				file << ",";
-				file << car->getPersonalKey();
-				file << ",";
-				file << car->getODO();
-				file << ",";
-				file << car->getServiceRemind();
-				file << "/";
-
-				// ghi thong tin display setting
-				file << "Display: ";
-				file << ",";
-				file << car->getdisplay()->get_light_level();
-				file << ",";
-				file << car->getdisplay()->get_screen_light_level();
-				file << ",";
-				file << car->getdisplay()->get_taplo_light_level();
-				file << "/";
-
-				// ghi thong tin sound setting
-				file << "Sound: ";
-				file << ",";
-				file << car->getsound()->get_call_level();
-				file << ",";
-				file << car->getsound()->get_media_level();
-				file << ",";
-				file << car->getsound()->get_navi_level();
-				file << ",";
-				file << car->getsound()->get_notification_level();
-				file << "/";
-
-				// ghi thong tin general setting
-				file << "General: ";
-				file << ",";
-				file << car->getgeneral()->get_language();
-				file << ",";
-				file << car->getgeneral()->get_timeZone();
-				file << "\n";
-			}
-			file.close();
-		}
-	}
-	catch (int e) {
-		if (e == 1) {
-			cout << "Error opening writeFile " << fileName << endl;
-			system("pause");
-		}
-	}
 }
 
 /*

@@ -3,6 +3,7 @@
 #define BST_H_
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "CarSetting.h"
 #include "valiuData.h"
 #include <fstream>
@@ -26,21 +27,18 @@ private:
 	void Insert(T value, NODE<T> *node);
 	NODE<T> *SearchPerSonnalKey(T value, NODE<T> *node);
 	void preOrder(NODE<T> *node, int type);
-	void inOrder(NODE<T> *node, int type);
-	void postOrder(NODE<T> *node, int type);
 	void ShowName(string name, NODE<T> *node);
 	int size(NODE<T> *node);
-	vector<T> convertToVector(vector<T> listcar, NODE<T>* node);
+	stringstream getAllData(NODE<T>* node);
 public:
 	BST();
 	void Insert(T value);
 	NODE<T> *SearchPerSonnalKey(T value);
 	void preOrder(int type);
-	void inOrder(int type);
-	void postOrder(int type);	
 	void ShowName(string name);
 	int size();
-	vector<T> convertToVector();
+	void writeFlile(string nameFile);
+	void ReadFile(string nameFile);
 };
 
 #endif
